@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>learning-rxjs</title>
+    <script src="https://cdn.bootcss.com/rxjs/6.0.0-alpha.3/Rx.min.js"></script>
+  </head>
+  <body>
+    <button>点击我</button>
+  </body>
+  <script>
+  const button = document.querySelector('button');
+  // 定义
+  $buttonClick = Rx.Observable.fromEvent(button, 'click')
+    .throttleTime(1000)
+    .scan(count => count + 1, 0)
+
+  // 执行
+  $buttonClick.subscribe(count => console.log(`Clicked ${count} times`));
+  </script>
+</html>
