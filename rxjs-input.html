@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>learning-rxjs</title>
+  <script src="https://cdn.bootcss.com/rxjs/6.0.0-alpha.3/Rx.min.js"></script>
+</head>
+<body>
+  <input type="text" style="width: 200px" disabled/>
+  <button>查询</button>
+</body>
+<script>
+const input$ = Rx.Observable.fromEvent(document.querySelector('input'), 'input');
+const button$ = Rx.Observable.fromEvent(document.querySelector('button'), 'click');
+
+button$
+  .scan(count => count + 1, 0)
+  .subscribe(count => document.querySelector('input').value = count);
+</script>
+</html>
