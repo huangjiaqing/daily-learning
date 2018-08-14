@@ -6,16 +6,48 @@
   <script src="https://cdn.bootcss.com/rxjs/6.0.0-alpha.3/Rx.min.js"></script>
 </head>
 <body>
-  <input type="text" style="width: 200px" disabled/>
-  <button>增加</button>
+  <h2 id="hello"></h2>
+  <p id="count"></p>
+  <input id="input" type="text" style="width: 200px" />
+  <button id="increase">增加</button>
+  <button id="decrease">减少</button>
 </body>
 <script>
+const increase$ = Rx.Observable
+  .fromEvent(document.querySelector('#increase'), 'click')
+  .map(() => state => Object.assign({}, state, { count: state.count + 1 }));
+
+const decrease$ = Rx.Observable
+  .fromEvent(document.querySelector('#decrease'), 'click')
+  .map(() => state => Object.assign({}, state, { count: state.count - 1 }));
+
+const input$ = Rx.Observable
+  .fromEvent(document.querySelector('#input'), 'keypress')
+  .map(e => state => Object.assign({}, state, { inputValue: e.target.value }));
+
 const state$ = Rx.Observable
-  .fromEvent(document.querySelector('button'), 'click')
-  .map(() => state => Object.assign({}, state, { count: state.count + 1 }))
-  .scan((state, changeFn) => changeFn(state), { count: 0 })
+  .merge(
+    increase$,
+    decrease$,
+    input$
+  )
+  .scan((state, changeFn) => changeFn(state), {
+    count: 0,
+    inputValue: ''
+  })
 
-state$.subscribe(state => document.querySelector('input').value = state.count)
+// 优化
+let prevState = {};
+state$.subscribe(state => {
+  if (state.count !== prevState.count) {
+    document.querySelector('#count').innerHTML = state.count;
+  }
 
+  if (state.inputValue !== prevState.inputValue) {
+    document.querySelector('#hello').innerHTML = 'Hello' + state.inputValue;
+  }
+
+  prevState = state;
+});
 </script>
 </html>
