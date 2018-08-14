@@ -10,11 +10,12 @@
   <button>增加</button>
 </body>
 <script>
-const input$ = Rx.Observable.fromEvent(document.querySelector('input'), 'input');
-const button$ = Rx.Observable.fromEvent(document.querySelector('button'), 'click');
+const state$ = Rx.Observable
+  .fromEvent(document.querySelector('button'), 'click')
+  .map(() => state => Object.assign({}, state, { count: state.count + 1 }))
+  .scan((state, changeFn) => changeFn(state), { count: 0 })
 
-button$
-  .scan(count => count + 1, 0)
-  .subscribe(count => document.querySelector('input').value = count);
+state$.subscribe(state => document.querySelector('input').value = state.count)
+
 </script>
 </html>
