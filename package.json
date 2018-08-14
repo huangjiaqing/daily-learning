@@ -1,0 +1,24 @@
+{
+  "name": "rethink",
+  "version": "1.0.0",
+  "description": "rethink something",
+  "main": "test.js",
+  "scripts": {
+    "start": "roadhog server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dob": "^2.5.9",
+    "dob-react": "^2.4.15",
+    "mobx": "^4.3.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "roadhog": "^2.4.2"
+  }
+}
