@@ -1,5 +1,9 @@
 const Rx = require('rxjs');
 
-const subject$ = new Rx.Subject();
+function onSubscribe(observer) {
+  observer.next(1)
+}
 
-subject$.subscribe(v => console.log(v));
+const observable$ = new Rx.Observable(onSubscribe);
+
+observable$.subscribe(v => console.log(v));
